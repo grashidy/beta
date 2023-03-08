@@ -150,7 +150,7 @@ class Purchase_Request(models.Model):
         }
         return action
 
-    def git st(self):
+    def btn_view_rfq(self):
         for rec in self:
             if len(rec.line_ids) >= 1:
                 po_obj = self.env['purchase.order']

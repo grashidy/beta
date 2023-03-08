@@ -24,7 +24,7 @@
                     <button name="action_view_purchase_order" class="btn-primary"
                             string="open RFQ" state="approved" type="object"
                             attrs="{'invisible':[('state','in',['cancel'])]}"/>
-                    <button name="btn_view_create_rfq" class="btn-primary"
+                    <button name="btn_view_rfq" class="btn-primary"
                             string="create po" state="approved" type="object"
                             attrs="{'invisible':[('state','in',['cancel'])]}"/>
                 </header>
