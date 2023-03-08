@@ -117,23 +117,6 @@ class Purchase_Request(models.Model):
                 'mail_message_id': mail.mail_message_id.id
             })
 
-    def btn_create_po2(self):
-        self.ensure_one()
-        action = self.env.ref("purchase.purchase_rfq").read()[0]
-        lines = self.line_ids
-        print(lines.name)
-        return {
-            'name': _("RFQ"),
-            'view_mode': 'form,tree',
-            'res_model': 'purchase.order',
-            'view_id': False,
-            'context': {
-                "default_order_line": lines.ids,
-            },
-            'type': "ir.actions.act_window",
-            'target': 'new'
-        }
-
     def action_purchase_order_creation(self):
         for request in self:
             lines = request.line_ids
@@ -141,42 +124,6 @@ class Purchase_Request(models.Model):
                 'name': request.name,
                 'purchase_request_line_ids': lines.ids
             })
-
-    def btn_create_rfq(self):
-        for rec in self:
-            po_obj = self.env['purchase.order']
-            line_ids = []
-            for line in rec.line_ids:
-                line_ids.append((0, 0, {
-                    'name': line.name,
-                    'product_id': line.product_id.id,
-                    'product_qty': line.quantity,
-                    'price_unit': line.price,
-                }))
-        po_obj = po_obj.create({
-            'name': 'New',
-            'origin': self.name,
-            'date_order': fields.date.today(),
-            'partner_id': self.vendor.id,
-            'order_line': line_ids,
-
-        })
-        return {
-            'name': _("RFQ"),
-            'view_mode': 'form,tree',
-            'res_model': 'purchase.order',
-            'res_id': po_obj and po_obj.id,
-            'view_id': False,
-            'context': {
-                'name': rec.name,
-                'partner_id': rec.vendor.id,
-                'order_line': line_ids,
-                'create': False,
-            },
-            'type': "ir.actions.act_window",
-            'target': 'new'
-
-        }
 
     def action_open_purchase_order(self):
         self.ensure_one()
@@ -203,55 +150,7 @@ class Purchase_Request(models.Model):
         }
         return action
 
-    def btn_view_rfq(self):
-        for rec in self:
-            po_obj = self.env['purchase.order']
-            confirmed_orders = []
-            confirmed_orders = po_obj.search([('origin', '=', rec.name), ('state', '=', 'purchase')])
-            count = len(confirmed_orders)
-            print(count)
-            print(confirmed_orders.mapped("origin"))
-            p_order_qty = 0.0
-            order_qty_sum = 0.0
-            req_qty_sum = 0.0
-            line_ids = []
-            for line in rec.line_ids:
-                domain = [("product_id", "=", line.product_id.id)]
-                order_product = confirmed_orders.order_line.filtered(lambda x: x.product_id == line.product_id)
-                print(order_product.mapped("product_qty"))
-                order_qty_sum = sum(order_product.mapped("product_qty"))
-                print(order_qty_sum)
-                req_qty_sum = sum(line.quantity for line in line)
-                print(req_qty_sum)
-                if req_qty_sum > order_qty_sum:
-                    p_order_qty = req_qty_sum - order_qty_sum
-                if p_order_qty > 0:
-                    line_ids.append((0, 0, {
-                        'name': line.name,
-                        'product_id': line.product_id.id,
-                        'product_uom': line.product_uom.id,
-                        'date_planned': fields.date.today(),
-                        'product_qty': p_order_qty,
-                        'price_unit': line.price,
-                    }))
-                return {
-                    'name': _("RFQ"),
-                    'view_mode': 'form,tree',
-                    'res_model': 'purchase.order',
-                    'view_id': False,
-                    'context': {
-                        'default_origin': self.name,
-                        'default_date_order': fields.date.today(),
-                        'default_name': rec.name,
-                        'default_partner_id': rec.vendor.id,
-                        'default_order_line': line_ids,
-                    },
-                    'type': "ir.actions.act_window",
-                    'target': 'new'
-                }
-                return
-
-    def btn_view_create_rfq(self):
+    def git st(self):
         for rec in self:
             if len(rec.line_ids) >= 1:
                 po_obj = self.env['purchase.order']
@@ -284,13 +183,7 @@ class Purchase_Request(models.Model):
                             'price_unit': line.price,
                             'request_line_ref': line.id,
                         }))
-                purchase_order_id = self.env['purchase.order'].sudo().create({
-                    'name': 'New',
-                    'origin': self.name,
-                    'date_order': fields.date.today(),
-                    'partner_id': self.vendor.id,
-                    'order_line': line_ids,
-                })
+
                 return {
                     'name': _("RFQ"),
                     'view_mode': 'form,tree',
