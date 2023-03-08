@@ -16,6 +16,8 @@
         'data/data.xml',
         'wizard/purchase_rejection_reason.xml',
         'views/purchase_request.xml',
+        'views/purchase_order.xml',
+
     ],
     "pre_init_hook": None,
     "post_init_hook": None,

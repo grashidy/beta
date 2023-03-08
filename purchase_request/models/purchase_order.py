@@ -1,5 +1,3 @@
-
-
 from odoo import _, api, exceptions, fields, models
 
 
@@ -10,6 +8,6 @@ class PurchaseOrder(models.Model):
 class PurchaseOrderLine(models.Model):
     _inherit = "purchase.order.line"
 
-    purchase_lines = fields.Many2one(comodel_name="purchase.request.line",
-                                             tracking=True)
+    request_line_ref = fields.Many2one("purchase.request.line", string="request Reference")
+
 
