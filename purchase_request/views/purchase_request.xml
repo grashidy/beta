@@ -8,24 +8,18 @@
             <form string="Purchase Requests">
                 <header>
                     <button name="btn_reset_to_draft"
-                            string="Reset" type="object" state="cancel" class="btn-primary"/>
+                            string="Reset" type="object" states="cancel" class="btn-primary"/>
                     <button name="btn_submit_for_approval"
                             string="Submit for Approval" type="object" states="draft" class="btn-primary"/>
                     <button name="btn_approve"
-                            string="Approve" type="object" class="btn-primary"
+                            string="Approve" type="object" class="btn-primary" states="to_approve"
                             attrs="{'invisible':[('state','=','approved')]}"/>
                     <button name="%(purchase_rejection_reason_action_wizard)d"
                             class="btn-primary" string="Reject"
-                            state="to_approve" type="action"/>
+                            states="to_approve,approve" type="action"/>
                     <field name="state" widget="statusbar"/>
                     <button name="btn_view_rfq" class="btn-primary"
-                            string="Create RFQ" state="approved" type="object"
-                            attrs="{'invisible':[('state','in',['cancel'])]}"/>
-                    <button name="action_view_purchase_order" class="btn-primary"
-                            string="open RFQ" state="approved" type="object"
-                            attrs="{'invisible':[('state','in',['cancel'])]}"/>
-                    <button name="btn_view_rfq" class="btn-primary"
-                            string="create po" state="approved" type="object"
+                            string="create po" states="approved" type="object"
                             attrs="{'invisible':[('state','in',['cancel'])]}"/>
                 </header>
 
@@ -66,7 +60,8 @@
                                     <field name="quantity"/>
                                     <field name="product_uom" groups="uom.group_uom"/>
                                      <field name="uom_category" invisible="1" />
-                                   <field name="cost_price"/>
+                                    <field name="cost_price"/>
+                                     <field name="request_id"/>
                                     <field name="price"/>
                                     <field name="total"/>
                                 </tree>
