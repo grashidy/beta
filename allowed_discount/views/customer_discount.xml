@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_partner_inherit_discount" model="ir.ui.view">
+        <field name="name">res.partner.inherit.discount</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='vat']" position="after">
+                <field name="allowed_discount"/>
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="sale_order_inherit_discount" model="ir.ui.view">
+        <field name="name">sale.order.inherit.discount</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='payment_term_id']" position="after">
+                <field name="allowed_discount"/>
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="account_move_inherit_discount" model="ir.ui.view">
+        <field name="name">account.move.inherit_discount</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='payment_reference']" position="after">
+                <field name="allowed_discount"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="account_res_config_settings_inherit" model="ir.ui.view">
+        <field name="name">account.res.config.settings.inherit</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='print_vendor_checks_setting_container']" position="after">
+                <t>
+                    <h2>Customer Discount</h2>
+                    <div class="row mt16 o_settings_container" id="customer_discount">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                             <div class="o_setting_right_pane">
+                                <div class="content-group">
+                                    <div>
+                                        <span class="o_form_label">Customer Discount:</span>
+                                    </div>
+                                    <div class="row mt8">
+                                        <label for="allowed_discount_product" class="col-lg-4 o_light_label"
+                                               string="Allowed discount product"/>
+                                        <field name="allowed_discount_product"/>
+                                    </div>
+                                    <div class="row mt8">
+                                        <label for="allowed_discount_account"
+                                               class="col-lg-4 o_light_label"/>
+                                        <field name="allowed_discount_account"/>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </t>
+            </xpath>
+        </field>
+    </record>
+
+
+</odoo>
